@@ -24,6 +24,9 @@ body {
 .box {
     background-color: #0a7a26;
     border: solid 1px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .box:hover {
@@ -49,4 +52,18 @@ body {
 
 .roundInfo {
     font-size: 36px;
+}
+
+.black {
+    background-color: black;
+}
+
+.white {
+    background-color: white;
+}
+
+.pawn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
