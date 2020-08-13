@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.board {
+    width: 500px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    background-color: purple;
+    border: solid 12px black
+}
+
+.box {
+    background-color: #0a7a26;
+    border: solid 1px black;
+}
+
+.box:hover {
+    cursor: pointer;
+    background-color: #0e6322;
+}
+
+.gameInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #56a3f5;
+    margin-bottom: 12px;
+}
+
+.playerInfo {
+    text-align: center;
+    font-size: 24px;
+    background-color: #e6da3e;
+    padding: 12px;
+    border: solid 2px black;
+}
+
+.roundInfo {
+    font-size: 36px;
+}
