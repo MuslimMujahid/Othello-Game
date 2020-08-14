@@ -10,13 +10,13 @@
     <div class="game">
         <div class="gameInfo">
             <div class="playerInfo playerOne">
-                <div class="playerName">Muslim</div>
-                <div class="playerPoint">80</div>
+                <div class="playerName"></div>
+                <div class="playerScore"></div>
             </div>
-            <div class="roundInfo">80</div>
+            <div class="roundInfo"></div>
             <div class="playerInfo playerTwo">
-                <div class="playerName">Muslim</div>
-                <div class="playerPoint">80</div>
+                <div class="playerName"></div>
+                <div class="playerScore"></div>
             </div>
         </div>
         <div class="board">
@@ -24,13 +24,12 @@
     </div>
 </body>
 <script>
-    const board = document.querySelector('.board')
     for (let row = 0; row < 8; row++) {
         for (let col = 0; col < 8; col++) {
             let newEl = document.createElement('div')
             newEl.classList.add('box')
             newEl.classList.add(`box-${row}-${col}`)
-            board.appendChild(newEl)
+            document.querySelector('.board').appendChild(newEl)
         }
     }
 </script>
