@@ -208,10 +208,12 @@ const boxes = document.querySelectorAll('.box')
 boxes.forEach(box => {
     box.addEventListener('click', () => {
         if (game.canCreatePawnAt(box)) {
+            console.log('pawn created')
             game.createPawn(box)
             game.flipConnectedPawns()
             game.changeTurn()
             game.updateDisplay()
+            console.log(game.playerOne.score, game.playerTwo.score)
         }
     })
 })

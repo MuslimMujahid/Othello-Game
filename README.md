@@ -14,3 +14,4 @@
 
 # Need to fix
 - round increment each player move (should be each player one and player two move)
+- the score messed up after certain move
