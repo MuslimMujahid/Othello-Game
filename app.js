@@ -43,8 +43,8 @@ class UserInterface {
 class Othello {
     constructor(playerOneName, playerTwoName, UserInterface) {
             
-            this.playerOne = new Player(playerOneName, 0, 'black')
-            this.playerTwo = new Player(playerTwoName, 0, 'white')
+            this.playerOne = new Player(playerOneName, 2, 'black')
+            this.playerTwo = new Player(playerTwoName, 2, 'white')
             this.UserInterface = UserInterface
         }
 
@@ -63,6 +63,7 @@ class Othello {
 
     changeTurn() {
         [this.curPlayer, this.nextPlayer] = [this.nextPlayer, this.curPlayer] 
+        this.round++
     }
 
     getBoxAt(x, y) {
@@ -92,35 +93,35 @@ class Othello {
         const [y, x] = box.classList[1].split('box-')[1].split('-')
         const thisPlace = box.firstChild 
         const top = () => {
-            let top = board.querySelector(`.box-${y-1}-${x}`)
+            let top = board.querySelector(`.box-${parseInt(y)-1}-${x}`)
             return top ? top.firstChild : null
         } 
         const bottom = () => {
-            let bottom = board.querySelector(`.box-${y+1}-${x}`)
+            let bottom = board.querySelector(`.box-${parseInt(y)+1}-${x}`)
             return bottom ? bottom.firstChild : null
         }
         const left = () => {
-            let left = board.querySelector(`.box-${y}-${x-1}`)
+            let left = board.querySelector(`.box-${y}-${parseInt(x)-1}`)
             return left ? left.firstChild : null
         }
         const right = () => {
-            let right = board.querySelector(`.box-${y}-${x+1}`)
+            let right = board.querySelector(`.box-${y}-${parseInt(x)+1}`)
             return right ? right.firstChild : null
         }
         const topLeft = () => {
-            let topLeft = board.querySelector(`.box-${y-1}-${x-1}`)
+            let topLeft = board.querySelector(`.box-${parseInt(y)-1}-${parseInt(x)-1}`)
             return topLeft ? topLeft.firstChild : null
         }
         const topRight = () => {
-            let topRight = board.querySelector(`.box-${y-1}-${x+1}`)
+            let topRight = board.querySelector(`.box-${parseInt(y)-1}-${parseInt(x)+1}`)
             return topRight ? topRight.firstChild : null
         }
         const bottomRight = () => {
-            let bottomRight = board.querySelector(`.box-${y+1}-${x+1}`)
-            return bottomRight ? topRight.firstChild : null
+            let bottomRight = board.querySelector(`.box-${parseInt(y)+1}-${parseInt(x)+1}`)
+            return bottomRight ? bottomRight.firstChild : null
         }
         const bottomLeft = () => {
-            let bottomLeft = board.querySelector(`.box-${y+1}-${x-1}`)
+            let bottomLeft = board.querySelector(`.box-${parseInt(y)+1}-${parseInt(x)-1}`)
             return bottomLeft ? topRight.firstChild : null
         }
         return !thisPlace && (top() || bottom() || left() || right() || topLeft() || topRight() || bottomRight() || bottomLeft())
@@ -207,7 +208,6 @@ const boxes = document.querySelectorAll('.box')
 boxes.forEach(box => {
     box.addEventListener('click', () => {
         if (game.canCreatePawnAt(box)) {
-            console.log('pwan created')
             game.createPawn(box)
             game.flipConnectedPawns()
             game.changeTurn()
