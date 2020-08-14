@@ -6,6 +6,10 @@
 - create pawn color respective to player at clicked box
 - flip connected pawns
 
+# Next job
+- Create main menu
+- gameover 
+
 # Working on
 
 # Need to fix
