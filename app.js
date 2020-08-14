@@ -23,19 +23,19 @@ class UserInterface {
         }
     }
 
-    addInterface(name, element) {
+    add(name, element) {
         this.map[name] = element
     }
 
-    addInterfaces(elements) {
+    addAll(elements) {
         this.map = {...this.map, ...elements}
     }
 
-    getInterface(elm) {
+    get(elm) {
         return this.map[elm]
     }
 
-    setInterface(interfaceName, value) {
+    set(interfaceName, value) {
         this.map[interfaceName].innerText = value
     }
 }
@@ -53,19 +53,78 @@ class Othello {
         this.curPlayer = this.playerOne
         this.nextPlayer = this.playerTwo
         this.lastCreatedPawn = undefined
+
+        // initial pawns
+        this.createPawnWithColorAt(this.getBoxAt(3, 3), this.playerOne.color)
+        this.createPawnWithColorAt(this.getBoxAt(3, 4), this.playerTwo.color)
+        this.createPawnWithColorAt(this.getBoxAt(4, 3), this.playerTwo.color)
+        this.createPawnWithColorAt(this.getBoxAt(4, 4), this.playerOne.color)
     }
 
     changeTurn() {
         [this.curPlayer, this.nextPlayer] = [this.nextPlayer, this.curPlayer] 
     }
 
-    createPawn()  {
+    getBoxAt(x, y) {
+        const board = this.UserInterface.get('board')
+        return board.querySelector(`.box-${y}-${x}`)
+    }
+
+    createPawn(box)  {
         let pawn = document.createElement('div')
         pawn.classList.add('pawn', this.curPlayer.color)
         this.curPlayer.incrementScore();
+        box.appendChild(pawn)
+
         this.lastCreatedPawn = pawn
-        return pawn
     } 
+
+    createPawnWithColorAt(box, color) {
+        let pawn = document.createElement('div')
+        pawn.classList.add('pawn', color)
+        box.appendChild(pawn)
+    }
+
+    canCreatePawnAt(box) {
+
+        const board = this.UserInterface.get('board')
+
+        const [y, x] = box.classList[1].split('box-')[1].split('-')
+        const thisPlace = box.firstChild 
+        const top = () => {
+            let top = board.querySelector(`.box-${y-1}-${x}`)
+            return top ? top.firstChild : null
+        } 
+        const bottom = () => {
+            let bottom = board.querySelector(`.box-${y+1}-${x}`)
+            return bottom ? bottom.firstChild : null
+        }
+        const left = () => {
+            let left = board.querySelector(`.box-${y}-${x-1}`)
+            return left ? left.firstChild : null
+        }
+        const right = () => {
+            let right = board.querySelector(`.box-${y}-${x+1}`)
+            return right ? right.firstChild : null
+        }
+        const topLeft = () => {
+            let topLeft = board.querySelector(`.box-${y-1}-${x-1}`)
+            return topLeft ? topLeft.firstChild : null
+        }
+        const topRight = () => {
+            let topRight = board.querySelector(`.box-${y-1}-${x+1}`)
+            return topRight ? topRight.firstChild : null
+        }
+        const bottomRight = () => {
+            let bottomRight = board.querySelector(`.box-${y+1}-${x+1}`)
+            return bottomRight ? topRight.firstChild : null
+        }
+        const bottomLeft = () => {
+            let bottomLeft = board.querySelector(`.box-${y+1}-${x-1}`)
+            return bottomLeft ? topRight.firstChild : null
+        }
+        return !thisPlace && (top() || bottom() || left() || right() || topLeft() || topRight() || bottomRight() || bottomLeft())
+    }
 
     flipConnectedPawns() {
         const parent = this.lastCreatedPawn.parentElement
@@ -116,11 +175,11 @@ class Othello {
     }
 
     updateDisplay() {
-        this.UserInterface.setInterface('playerOneName', this.playerOne.name)
-        this.UserInterface.setInterface('playerTwoName', this.playerTwo.name)
-        this.UserInterface.setInterface('playerOneScore', this.playerOne.score)
-        this.UserInterface.setInterface('playerTwoScore', this.playerTwo.score)
-        this.UserInterface.setInterface('round', this.round)
+        this.UserInterface.set('playerOneName', this.playerOne.name)
+        this.UserInterface.set('playerTwoName', this.playerTwo.name)
+        this.UserInterface.set('playerOneScore', this.playerOne.score)
+        this.UserInterface.set('playerTwoScore', this.playerTwo.score)
+        this.UserInterface.set('round', this.round)
     }
 }
 
@@ -147,9 +206,9 @@ const boxes = document.querySelectorAll('.box')
 
 boxes.forEach(box => {
     box.addEventListener('click', () => {
-
-        if (box.childElementCount == 0) {
-            box.appendChild(game.createPawn())
+        if (game.canCreatePawnAt(box)) {
+            console.log('pwan created')
+            game.createPawn(box)
             game.flipConnectedPawns()
             game.changeTurn()
             game.updateDisplay()
